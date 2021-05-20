@@ -28,7 +28,7 @@ public class StationDataAdd {
     private StationsProducer stationsAddProducer;
 
     @PostConstruct
-    public void addAllStationsDataFromDatabaseToTopic(){
+    public void addAllStationsDataFromDbToTopic(){
         try{
             List<AllStationsData> stationsDataList = repository.findAll();
             for(AllStationsData stationsData : stationsDataList){

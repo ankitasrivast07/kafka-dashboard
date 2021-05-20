@@ -30,7 +30,7 @@ public class KafkaTopicConfig {
         return TopicBuilder
                 .name("org.station.arrivals")
                 .partitions(3)
-                .replicas(1)
+                .replicas(3)
                 .build();
     }
     @Bean
@@ -41,6 +41,16 @@ public class KafkaTopicConfig {
                 .replicas(3)
                 .build();
     }
+
+    @Bean
+    public NewTopic transformStations(){
+        return TopicBuilder
+                .name("org.station.transformstations")
+                .partitions(3)
+                .replicas(1)
+                .build();
+    }
+
     @Bean
     public NewTopic stations(){
         return TopicBuilder
@@ -55,14 +65,6 @@ public class KafkaTopicConfig {
                 .name("org.station.weather")
                 .partitions(3)
                 .replicas(3)
-                .build();
-    }
-    @Bean
-    public NewTopic transformStations(){
-        return TopicBuilder
-                .name("org.station.transformstations")
-                .partitions(3)
-                .replicas(1)
                 .build();
     }
 

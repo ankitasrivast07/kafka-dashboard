@@ -27,6 +27,7 @@ public class TurnstileTable {
 
     private static String  turnStilesTopicName = "org.station.turnstiles";
 
+    //table Turnstiles in Kafka cluster from turnstile data provided
     @Scheduled(fixedDelay = 3000*60)
     public void generateTurnstilesKTable(){
         Properties config = new Properties();
@@ -43,6 +44,7 @@ public class TurnstileTable {
                 .toTable(Materialized.as("Turnstiles"));
 
     }
+    //Table of Turnstiles_Summary
     @Scheduled(fixedDelay = 300000)
     public void generateTurnstiles(){
         Properties config = new Properties();
@@ -53,7 +55,7 @@ public class TurnstileTable {
         config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,Serdes.String().getClass());
 
         StreamsBuilder builder = new StreamsBuilder();
-        //input topic
+
         KStream<String,String>  textLines = builder.stream("org.station.turnstiles");
         KTable<String,Long> wordsCount = textLines
                 .flatMapValues(textLine -> Arrays.asList(textLine.split("\\W+")))

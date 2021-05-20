@@ -14,16 +14,16 @@ public class AllDataOfStationsConsumer {
 
     @KafkaListener(topics = "org.station.stations",groupId = "stations")
     public void consumeStations(ConsumerRecord<Integer,String> consumerRecord) throws JsonProcessingException {
-        log.info("Station : {} ", consumerRecord );
+        log.info("Stations are : {} ", consumerRecord );
     }
 
     @KafkaListener(topics = "org.station.transformstations",groupId = "transform-stations")
     public void consumesTransformStations(ConsumerRecord<Integer,String> consumerRecord) throws JsonProcessingException {
-        log.info("Transform Station : {} ", consumerRecord );
+        log.info("Transform Stations are : {} ", consumerRecord );
     }
     @KafkaListener(topics = "org.station.weather",groupId = "weather")
     public void consumeWeatherData(ConsumerRecord<Integer,String> consumerRecord) throws JsonProcessingException {
-        log.info("Weather Record : {} ", consumerRecord );
+        log.info("Weather Records of Particular station : {} ", consumerRecord );
     }
 
 

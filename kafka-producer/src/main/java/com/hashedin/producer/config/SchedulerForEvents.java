@@ -29,18 +29,18 @@ public class SchedulerForEvents {
 
     private String stationsFilePath = "data/stations.csv";
     private static Map<Long,String> stationsDetailsMap = new HashMap<>();
+    private static String trainsArrivalTopicName = "org.station.arrivals";
+    private static String  turnStilesTopicName = "org.station.turnstiles";
     private static char[] directions = {'W','E','N','S'};
     private static String[] lines = {"red","green","blue"};
     private static String[] trainStatus = {"RUNNING","LATE","STOPPED"};
-    private static String trainsArrivalTopicName = "org.station.arrivals";
-    private static String  turnStilesTopicName = "org.station.turnstiles";
 
     @Autowired
     private ObjectMapper objectMapper;
 
 
     @PostConstruct
-    public void getAllCsvData(){
+    public void getCsvData(){
         try{
             BufferedReader csvReader = new BufferedReader(
                     new InputStreamReader(getClass().getClassLoader().getResourceAsStream(stationsFilePath))
@@ -61,7 +61,7 @@ public class SchedulerForEvents {
     }
 
     @Scheduled(fixedDelay =  300000) //5 minutes in milliseconds
-    public void generateRandomTrainArrivalEvent(){
+    public void generateRandomArrivalEvent(){
         try{
             Integer randomIndex = ThreadLocalRandom.current().nextInt(stationsDetailsMap.size());
             Integer prevRandomIndex = ThreadLocalRandom.current().nextInt(stationsDetailsMap.size());
@@ -76,13 +76,13 @@ public class SchedulerForEvents {
             trainArrival.setPrev_station_id(keyAsArray.get(prevRandomIndex));
             trainArrival.setPrev_direction(directions[ThreadLocalRandom.current().nextInt(4)]);
             allEventsProducer.sendEventProduced(trainsArrivalTopicName, trainArrival);
-            log.info("Train Arrived with Details {}", trainArrival);
+            log.info("Train Arrived {}", trainArrival);
         }
         catch (Exception ex){
             log.error("Error Occurs is = "+ex.getMessage());
         }
     }
-    @Scheduled(fixedDelay = 3000*60)
+    @Scheduled(fixedDelay = 300000)
     public void generateRandomTurnStileEvent(){
         try{
             Integer randomIndex = ThreadLocalRandom.current().nextInt(stationsDetailsMap.size());
